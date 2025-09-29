@@ -13,9 +13,9 @@ services:
       - key: SECRET_KEY
         generateValue: true
       - key: DEBUG
-        value: "False"
+        value: "True"  # Temporarily enable for debugging
       - key: ALLOWED_HOSTS
-        value: ".onrender.com"
+        value: "ticketanywhere-backend.onrender.com,.onrender.com,localhost,127.0.0.1"
       - key: DB_ENGINE
         value: "django.db.backends.postgresql"
       - key: DB_NAME
@@ -28,10 +28,6 @@ services:
         sync: false  # You'll set this in Render dashboard
       - key: DB_PORT
         value: "5432"
-      - key: CORS_ALLOW_ALL_ORIGINS
-        value: "True"
-      - key: CORS_ALLOW_CREDENTIALS
-        value: "True"
       - key: ACCESS_TOKEN_LIFETIME_HOURS
         value: "1"
       - key: REFRESH_TOKEN_LIFETIME_DAYS

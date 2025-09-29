@@ -33,6 +33,28 @@ DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',') if os.getenv('ALLOWED_HOSTS') else []
 
+# Add logging for production debugging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}
+
 
 # Application definition
 
@@ -173,10 +195,11 @@ REST_FRAMEWORK = {
 LOGIN_REDIRECT_URL = '/api/' 
 
 # CORS Configuration
-# Allow all origins during development (change this in production)
-CORS_ALLOW_ALL_ORIGINS = os.getenv('CORS_ALLOW_ALL_ORIGINS', 'True').lower() == 'true'
+# Allow all origins for now
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 
-# Alternative: Specify allowed origins for production
+# Alternative: Specify allowed origins for production (currently disabled)
 # CORS_ALLOWED_ORIGINS = [
 #     "http://localhost:3000",  # React default
 #     "http://localhost:8080",  # Vue.js default
@@ -185,7 +208,7 @@ CORS_ALLOW_ALL_ORIGINS = os.getenv('CORS_ALLOW_ALL_ORIGINS', 'True').lower() == 
 # ]
 
 # Allow credentials (cookies, authorization headers, etc.)
-CORS_ALLOW_CREDENTIALS = os.getenv('CORS_ALLOW_CREDENTIALS', 'True').lower() == 'true'
+# CORS_ALLOW_CREDENTIALS = os.getenv('CORS_ALLOW_CREDENTIALS', 'True').lower() == 'true'
 
 # Allowed headers for CORS requests
 CORS_ALLOW_HEADERS = [
@@ -198,6 +221,8 @@ CORS_ALLOW_HEADERS = [
     'user-agent',
     'x-csrftoken',
     'x-requested-with',
+    'x-forwarded-for',
+    'x-forwarded-proto',
 ]
 
 # Allowed methods for CORS requests
