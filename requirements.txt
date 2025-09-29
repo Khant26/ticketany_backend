@@ -24,6 +24,12 @@ django-cors-headers==4.7.0
 # Better form rendering (optional but useful)
 django-crispy-forms==2.4
 
+# Environment variables management
+python-dotenv==1.0.1
+
+# Production WSGI server
+gunicorn==23.0.0
+
 # Optional: For handling images if you use ImageField
 # Pillow==10.4.0
 

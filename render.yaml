@@ -1,0 +1,39 @@
+services:
+  - type: web
+    name: ticketanywhere-backend
+    env: python
+    plan: free
+    buildCommand: |
+      pip install --upgrade pip
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+      python manage.py migrate
+    startCommand: |
+      gunicorn --bind 0.0.0.0:$PORT ticketanywhere.wsgi:application
+    envVars:
+      - key: b3f565a8566ee1f3c949382ac2a5f5d8e3b44a22d70cf5974196778a1255df74
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: ".onrender.com"
+      - key: DB_ENGINE
+        value: "django.db.backends.postgresql"
+      - key: DB_NAME
+        value: "postgres"
+      - key: DB_USER
+        value: "postgres"
+      - key: DB_PASSWORD
+        sync: false  # You'll set this in Render dashboard
+      - key: DB_HOST
+        sync: false  # You'll set this in Render dashboard
+      - key: DB_PORT
+        value: "5432"
+      - key: CORS_ALLOW_ALL_ORIGINS
+        value: "True"
+      - key: CORS_ALLOW_CREDENTIALS
+        value: "True"
+      - key: ACCESS_TOKEN_LIFETIME_HOURS
+        value: "1"
+      - key: REFRESH_TOKEN_LIFETIME_DAYS
+        value: "1"
